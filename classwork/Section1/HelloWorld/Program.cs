@@ -15,21 +15,64 @@ namespace HelloWorld
             //string title;
             //int runLength;
             //int releaseYear;
-           // string description;
-           // bool haveSeen;
+            // string description;
+            // bool haveSeen;
+            var quit = false;
+            while (!quit)
+            {
+                char input = DisplayMenu ();
+                switch (input)
+                {
+                    //Fallthrough allowed only if case is empty
+                    case 'a':
+                    case 'A': AddMovie(); break;
 
-            while (true)
+                    //Must have break/return at end of each case
+                    case 'D': DisplayMenu (); break;
+                    case 'R': RemoveMovie (); break;
+                    case 'Q':
+                    {
+                        quit = true;
+                        break;
+                    }
+                    default: Console.WriteLine ("Not supported"); break;
+               
+                }
+                if (input == 'A')
+                    AddMovie ();
+                else if (input == 'D')
+                    DisplayMovie ();
+                else if (input == 'R')
+                    RemoveMovie ();
+                else if (input == 'Q')
+                    break;
+            };
+
+            /*while (true)
             {
                 char input = DisplayMenu ();
                 if (input == 'A')
                     AddMovie ();
                 else if (input == 'D')
                     DisplayMovie ();
+                else if (input == 'R')
+                    RemoveMovie ();
                 else if (input == 'Q')
                     break;
-            };
+            };*/
         }
 
+        private static void RemoveMovie ()
+        {
+            //Confirm removal
+            //Please DONT do this expression == true, expression
+            if (ReadBoolean ($"Are you sure you want to remove {title}?"))
+                return;
+
+
+            //Remove movie
+            title = null;
+        }
         static void AddMovie ()
         {
             //Get title
@@ -52,6 +95,14 @@ namespace HelloWorld
 
         static void DisplayMovie ()
         {
+            //Display message if no movies
+            if (String.IsNullOrEmpty(title))
+            {
+                Console.WriteLine ("No movies");
+                return;
+            }
+
+
             //Title,  description, release year, run length, hasSeen
             Console.WriteLine (title);
             Console.WriteLine (description);
@@ -72,6 +123,9 @@ namespace HelloWorld
             Console.WriteLine ($"Seen it? {hasSeen}");
 
             Console.WriteLine ("Seen it?" + hasSeen.ToString());
+
+            
+            Console.WriteLine ("".PadLeft (50, '-'));
 
         }
         static bool ReadBoolean ( string message )
@@ -115,6 +169,7 @@ namespace HelloWorld
             {
                 Console.WriteLine ("A)dd Movie");
                 Console.WriteLine ("D) isplay Movie");
+                Console.WriteLine ("R) emove Movie");
                 Console.WriteLine ("Q)uit");
 
                 string input = Console.ReadLine ();
@@ -122,15 +177,17 @@ namespace HelloWorld
                 //Lower case
                 input = input.ToLower ();
                 //if (input == "A" || input == "a")
-               // if (input == "a")
-               if (String.Compare(input, "a", true) ==0)
+                // if (input == "a")
+                if (String.Compare (input, "a", true) ==0)
                 {
                     return 'A';
                 } else if (input == "q")
                 {
                     return 'Q';
-                } else if ( input == "d")
+                } else if (input == "d")
                     return 'D';
+                else if (input =="r")
+                    return 'R';
                     Console.WriteLine ("Invalid input");
 
             } while (true);
@@ -254,6 +311,21 @@ namespace HelloWorld
 
 
             string[] nameParts = name.Split (' ');
+        }
+
+        static void DemoString()
+        {
+            string str = null;
+            // Checkin for null
+            if (str != null)
+                str = str.ToLower ();
+
+            //Checking for null or empty string
+            if (str != null && str != "")
+                str = str.ToLower ();
+
+            if (!String.IsNullOrEmpty (str))
+                str = str.ToLower ();
         }
 
         // Don't do this outside lab 1
